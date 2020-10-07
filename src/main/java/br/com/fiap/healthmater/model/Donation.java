@@ -1,36 +1,35 @@
 package br.com.fiap.healthmater.model;
 
+import br.com.fiap.healthmater.enumerator.DonationTypeEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "faq")
-public class Faq {
+@Table(name = "donation")
+public class Donation {
 
     @Id
-    @Column(name = "faq_id")
+    @Column(name = "donation_id")
     private Integer id;
 
-    @NotEmpty
-    @Size(max = 100)
-    @Column(length = 100)
+    @Size(max = 200)
+    @Column(length = 200)
     private String description;
+
+    @NotNull
+    @Enumerated
+    @Column(nullable = false)
+    private DonationTypeEnum type;
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(nullable = false)
-    private LocalDate faqDate;
+    private LocalDate donationDate;
 
     @NotNull
     @ManyToOne
@@ -53,12 +52,20 @@ public class Faq {
         this.description = description;
     }
 
-    public LocalDate getFaqDate() {
-        return faqDate;
+    public DonationTypeEnum getType() {
+        return type;
     }
 
-    public void setFaqDate(LocalDate faqDate) {
-        this.faqDate = faqDate;
+    public void setType(DonationTypeEnum type) {
+        this.type = type;
+    }
+
+    public LocalDate getDonationDate() {
+        return donationDate;
+    }
+
+    public void setDonationDate(LocalDate donationDate) {
+        this.donationDate = donationDate;
     }
 
     public User getUser() {
@@ -71,10 +78,11 @@ public class Faq {
 
     @Override
     public String toString() {
-        return "Faq{" +
+        return "Donation{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", faqDate=" + faqDate +
+                ", type='" + type + '\'' +
+                ", donationDate=" + donationDate +
                 ", user=" + user +
                 '}';
     }
@@ -82,15 +90,16 @@ public class Faq {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Faq)) return false;
-        Faq faq = (Faq) o;
-        return getId().equals(faq.getId()) &&
-                getUser().equals(faq.getUser());
+        if (!(o instanceof Donation)) return false;
+        Donation donation = (Donation) o;
+        return getId().equals(donation.getId()) &&
+                getType() == donation.getType() &&
+                getUser().equals(donation.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser());
+        return Objects.hash(getId(), getType(), getUser());
     }
 
 }
