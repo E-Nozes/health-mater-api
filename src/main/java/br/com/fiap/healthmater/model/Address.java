@@ -6,6 +6,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * Map the 'address' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "address")
 public class Address {

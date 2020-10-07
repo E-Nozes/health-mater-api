@@ -5,6 +5,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * Map the 'state' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "state", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "federalUnity"})})
 public class State {

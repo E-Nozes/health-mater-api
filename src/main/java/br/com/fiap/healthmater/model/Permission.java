@@ -9,6 +9,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Map the 'permission' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "permission", uniqueConstraints = {@UniqueConstraint(columnNames = {"description"})})
 public class Permission {

@@ -6,6 +6,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * Map the 'comment' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "comment")
 public class Comment {

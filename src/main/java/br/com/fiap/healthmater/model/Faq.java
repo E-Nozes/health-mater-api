@@ -14,6 +14,11 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Map the 'faq' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "faq")
 public class Faq {

@@ -7,6 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Map the 'chat_watson' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "chat_watson")
 public class ChatWatson {

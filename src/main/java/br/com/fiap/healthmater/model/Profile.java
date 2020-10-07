@@ -8,6 +8,11 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Map the 'profile' table in the database.
+ *
+ * @author Gabriel Oliveira
+ */
 @Entity
 @Table(name = "profile", uniqueConstraints = {@UniqueConstraint(columnNames = {"description"})})
 public class Profile {
