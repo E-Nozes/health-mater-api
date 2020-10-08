@@ -7,6 +7,7 @@ package br.com.fiap.healthmater.enumerator;
  */
 public enum DonationTypeEnum {
 
-    RIN, CORACAO, FIGADO;
+    RIM, FIGADO, CORACAO, PANCREAS, PULMAO, CORNEA, PELE,
+    OSSOS, VALVULAS_CARDIACAS, CARTILAGEM, MEDULA_OSSEA;
 
 }
