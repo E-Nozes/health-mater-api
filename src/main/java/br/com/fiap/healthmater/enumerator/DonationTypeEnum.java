@@ -19,7 +19,7 @@ public enum DonationTypeEnum {
     CARTILAGEM("Cartilagem"),
     MEDULA_OSSEA("Medula Ossea");
 
-    private String description;
+    private final String description;
 
     DonationTypeEnum(String description) {
         this.description = description;
