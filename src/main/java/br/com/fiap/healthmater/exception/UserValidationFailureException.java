@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
+/**
+ * Custom exception class for user-payload validation failure.
+ *
+ * @author Gabriel Oliveira
+ */
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Payload Validation Failure")
 public class UserValidationFailureException extends ValidationFailure {
 

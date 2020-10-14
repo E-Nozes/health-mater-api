@@ -3,6 +3,11 @@ package br.com.fiap.healthmater.exception;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Abstract exception class for payload validation failures.
+ *
+ * @author Gabriel Oliveira
+ */
 public abstract class ValidationFailure extends RuntimeException {
 
     private List<String> validationMessages = new ArrayList<>();

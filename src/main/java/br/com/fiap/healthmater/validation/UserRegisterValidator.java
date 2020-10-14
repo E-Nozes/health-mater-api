@@ -1,7 +1,6 @@
 package br.com.fiap.healthmater.validation;
 
 import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.exception.UserValidationFailureException;
 import br.com.fiap.healthmater.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
