@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "message")
+@Table
 public class Message {
 
     @Id

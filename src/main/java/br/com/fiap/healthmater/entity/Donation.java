@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "donation")
+@Table
 public class Donation {
 
     @Id

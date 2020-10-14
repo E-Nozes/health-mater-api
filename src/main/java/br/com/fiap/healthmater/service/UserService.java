@@ -24,11 +24,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private final UserRegisterValidator registerValidator = new UserRegisterValidator(userRepository);
-    private final UserSearchValidator searchValidator = new UserSearchValidator(userRepository);
+    @Autowired
+    private UserRegisterValidator registerValidator;
+
+    @Autowired
+    private UserSearchValidator searchValidator;
 
     public User findById(Integer id) {
-        return this.searchValidator.verifyIfExists(id);
+        User user = this.searchValidator.verifyIfExists(id);
+        user.setPassword(null);
+
+        return user;
     }
 
     public User create(User user) {

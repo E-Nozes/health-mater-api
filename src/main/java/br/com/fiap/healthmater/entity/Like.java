@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "like")
+@Table
 public class Like {
 
     @Id

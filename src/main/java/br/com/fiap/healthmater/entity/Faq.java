@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "faq")
+@Table
 public class Faq {
 
     @Id

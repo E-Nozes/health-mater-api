@@ -2,6 +2,7 @@ package br.com.fiap.healthmater.validation;
 
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -21,11 +22,8 @@ public class UserRegisterValidator implements UserValidator {
     private static final String INVALID_EMAIL_MESSAGE_TEMPLATE = "The e-mail '%s' has already been taken. Please choose another one for the User [%s]";
     private static final String INVALID_PASSWORD_MESSAGE_TEMPLATE = "The password must be the size between 8 and 16 characters. Please choose another one for the User [%s]";
 
-    private final UserRepository userRepository;
-
-    public UserRegisterValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<String> validate(User user) {

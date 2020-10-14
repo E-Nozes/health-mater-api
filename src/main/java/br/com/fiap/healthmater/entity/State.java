@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "state", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "federalUnity"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "federalUnity"})})
 public class State {
 
     @Id

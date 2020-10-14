@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "chat_watson")
+@Table
 public class ChatWatson {
 
     @Id

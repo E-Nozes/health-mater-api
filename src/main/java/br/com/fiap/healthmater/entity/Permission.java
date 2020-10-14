@@ -15,7 +15,7 @@ import java.util.Set;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "permission", uniqueConstraints = {@UniqueConstraint(columnNames = {"description"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"description"})})
 public class Permission {
 
     @Id

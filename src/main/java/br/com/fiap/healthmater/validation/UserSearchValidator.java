@@ -3,6 +3,7 @@ package br.com.fiap.healthmater.validation;
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.exception.ResourceNotFoundException;
 import br.com.fiap.healthmater.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,22 +17,17 @@ public class UserSearchValidator {
     private static final String INVALID_ID_MESSAGE_TEMPLATE = "User not found for the given ID [%s]";
     private static final String INVALID_EMAIL_MESSAGE_TEMPLATE = "User not found for the given e-mail [%s]";
 
-    private final UserRepository userRepository;
-
-    public UserSearchValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     public User verifyIfExists(Integer id) {
-        String exceptionMessage = generateErrorMessage(INVALID_ID_MESSAGE_TEMPLATE, id);
-        return this.userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(exceptionMessage));
+        return this.userRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(generateErrorMessage(INVALID_ID_MESSAGE_TEMPLATE, id)));
     }
 
     public User verifyIfExistsByEmail(String email) {
-        String exceptionMessage = generateErrorMessage(INVALID_EMAIL_MESSAGE_TEMPLATE, email);
-        return this.userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException(exceptionMessage));
+        return this.userRepository.findByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException(generateErrorMessage(INVALID_EMAIL_MESSAGE_TEMPLATE, email)));
     }
 
     private String generateErrorMessage(String template, Integer id) {
