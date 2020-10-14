@@ -1,6 +1,6 @@
 package br.com.fiap.healthmater.security;
 
-import br.com.fiap.healthmater.model.User;
+import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
 package br.com.fiap.healthmater.security;
 
-import br.com.fiap.healthmater.model.User;
+import br.com.fiap.healthmater.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

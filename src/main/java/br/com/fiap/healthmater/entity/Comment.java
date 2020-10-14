@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.model;
+package br.com.fiap.healthmater.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

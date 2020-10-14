@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.model;
+package br.com.fiap.healthmater.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -38,11 +38,10 @@ public class User {
     private String email;
 
     @NotEmpty
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     @Column(nullable = false, length = 255)
     private String password;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;

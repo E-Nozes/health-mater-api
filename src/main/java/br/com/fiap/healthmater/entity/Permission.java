@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.model;
+package br.com.fiap.healthmater.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

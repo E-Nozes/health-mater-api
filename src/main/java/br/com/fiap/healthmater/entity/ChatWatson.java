@@ -1,28 +1,29 @@
-package br.com.fiap.healthmater.model;
+package br.com.fiap.healthmater.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * Map the 'post' table in the database.
+ * Map the 'chat_watson' table in the database.
  *
  * @author Gabriel Oliveira
  */
 @Entity
-@Table(name = "post")
-public class Post {
+@Table(name = "chat_watson")
+public class ChatWatson {
 
     @Id
-    @Column(name = "post_id")
+    @Column(name = "chat_watson_id")
     private Integer id;
 
-    @NotEmpty
-    @Size(max = 300)
-    @Column(nullable = false, length = 300)
-    private String content;
+    @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(nullable = false)
+    private LocalDate chatDate;
 
     @NotNull
     @ManyToOne
@@ -37,12 +38,12 @@ public class Post {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public LocalDate getChatDate() {
+        return chatDate;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setChatDate(LocalDate chatDate) {
+        this.chatDate = chatDate;
     }
 
     public User getUser() {
@@ -55,9 +56,9 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "ChatWatson{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
+                ", chatDate=" + chatDate +
                 ", user=" + user +
                 '}';
     }
@@ -65,10 +66,10 @@ public class Post {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Post)) return false;
-        Post post = (Post) o;
-        return getId().equals(post.getId()) &&
-                getUser().equals(post.getUser());
+        if (!(o instanceof ChatWatson)) return false;
+        ChatWatson that = (ChatWatson) o;
+        return getId().equals(that.getId()) &&
+                getUser().equals(that.getUser());
     }
 
     @Override

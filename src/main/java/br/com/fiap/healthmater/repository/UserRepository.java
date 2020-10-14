@@ -1,6 +1,6 @@
 package br.com.fiap.healthmater.repository;
 
-import br.com.fiap.healthmater.model.User;
+import br.com.fiap.healthmater.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
