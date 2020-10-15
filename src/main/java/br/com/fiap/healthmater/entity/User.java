@@ -39,12 +39,12 @@ public class User {
 
     @NotEmpty
     @Size(min = 8, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String password;
 
-//    @ManyToOne
-//    @JoinColumn(name = "address_id", nullable = false)
-//    private Address address;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @Size(max = 200)
     @Column(length = 200)
@@ -98,13 +98,13 @@ public class User {
         this.password = password;
     }
 
-//    public Address getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public String getProfileDescription() {
         return profileDescription;
@@ -138,7 +138,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-//                ", address='" + address + '\'' +
+                ", address='" + address + '\'' +
                 ", profileDescription='" + profileDescription + '\'' +
                 ", active=" + active +
                 ", profiles=" + profiles +
