@@ -18,7 +18,7 @@ public class ProfileSearchValidator {
     @Autowired
     private ProfileRepository profileRepository;
 
-    public String verifyIfExists(Integer id) {
+    public String validateId(Integer id) {
         if (!profileRepository.findById(id).isPresent()) {
             return generateErrorMessage(INVALID_ID_MESSAGE_TEMPLATE, id);
         }

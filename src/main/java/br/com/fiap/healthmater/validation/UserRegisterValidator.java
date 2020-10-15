@@ -21,11 +21,10 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class UserRegisterValidator implements UserValidator {
 
-    private static final String INVALID_EMAIL_MESSAGE_TEMPLATE = "The e-mail '%s' has already been taken. Please choose another one.";
-    private static final String INVALID_PASSWORD_MESSAGE_TEMPLATE = "The password must be the size between 8 and 16 characters. Please choose another one.";
+    private static final String INVALID_PASSWORD_MESSAGE_TEMPLATE = "The password must be the size between 8 and 16 characters. Please choose another one";
 
     @Autowired
-    private UserRepository userRepository;
+    private UserSearchValidator userSearchValidator;
 
     @Autowired
     private ProfileSearchValidator profileSearchValidator;
@@ -42,13 +41,13 @@ public class UserRegisterValidator implements UserValidator {
     }
 
     private List<String> validateEmail(User user) {
-        String email = user.getEmail();
+        String validationMessage = userSearchValidator.validateEmail(user.getEmail());
 
-        if (userRepository.findByEmail(email).isPresent()) {
-            return Collections.singletonList(generateErrorMessage(INVALID_EMAIL_MESSAGE_TEMPLATE, email));
-        } else {
+        if (validationMessage == null) {
             return Collections.emptyList();
         }
+
+        return Collections.singletonList(validationMessage);
     }
 
     private List<String> validatePassword(User user) {
@@ -64,15 +63,9 @@ public class UserRegisterValidator implements UserValidator {
     private List<String> validateProfiles(User user) {
         return user.getProfiles().stream()
                 .map(Profile::getId)
-                .map(id -> profileSearchValidator.verifyIfExists(id))
+                .map(id -> profileSearchValidator.validateId(id))
                 .filter(Objects::nonNull)
                 .collect(toList());
-    }
-
-    private String generateErrorMessage(String template, String email) {
-        String displayEmail = email != null ? email : "<none>";
-        return String.format(template,
-                displayEmail);
     }
 
     private String generateErrorMessage(String template) {
