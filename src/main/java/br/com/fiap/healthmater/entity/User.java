@@ -20,6 +20,7 @@ public class User {
 
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
@@ -38,7 +39,6 @@ public class User {
     private String email;
 
     @NotEmpty
-    @Size(min = 8, max = 255)
     @Column(nullable = false)
     private String password;
 

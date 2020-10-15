@@ -38,11 +38,15 @@ public class UserService {
     }
 
     public User create(User user) {
-        User persistentUser = this.validateRegistrationPayload(user);
+        User validUser = this.validateRegistrationPayload(user);
 
-        persistentUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        validUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 
-        return this.userRepository.save(user);
+        User persistentUser = this.userRepository.save(validUser);
+
+        persistentUser.setPassword(null);
+
+        return persistentUser;
     }
 
     public User findLoggedUser() {
