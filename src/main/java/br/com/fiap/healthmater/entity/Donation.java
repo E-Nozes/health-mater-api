@@ -20,6 +20,7 @@ public class Donation {
 
     @Id
     @Column(name = "donation_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 200)

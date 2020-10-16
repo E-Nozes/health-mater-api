@@ -2,7 +2,6 @@ package br.com.fiap.healthmater.validation;
 
 import br.com.fiap.healthmater.entity.Profile;
 import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +28,17 @@ public class UserRegisterValidator implements UserValidator {
     @Autowired
     private ProfileSearchValidator profileSearchValidator;
 
+    @Autowired
+    private AddressSearchValidator addressSearchValidator;
+
     @Override
     public List<String> validate(User user) {
         Stream<String> validEmail = validateEmail(user).stream();
         Stream<String> validPassword = validatePassword(user).stream();
         Stream<String> validProfiles = validateProfiles(user).stream();
+        Stream<String> validAddress = validateAddress(user).stream();
 
-        return Stream.of(validEmail, validPassword, validProfiles)
+        return Stream.of(validEmail, validPassword, validProfiles, validAddress)
                 .flatMap(s -> s)
                 .collect(toList());
     }
@@ -61,11 +64,27 @@ public class UserRegisterValidator implements UserValidator {
     }
 
     private List<String> validateProfiles(User user) {
-        return user.getProfiles().stream()
-                .map(Profile::getId)
-                .map(id -> profileSearchValidator.validateId(id))
-                .filter(Objects::nonNull)
-                .collect(toList());
+        if (user.getProfiles() != null && !user.getProfiles().isEmpty()) {
+            return user.getProfiles().stream()
+                    .map(Profile::getId)
+                    .map(id -> profileSearchValidator.validateId(id))
+                    .filter(Objects::nonNull)
+                    .collect(toList());
+        }
+
+        return Collections.emptyList();
+    }
+
+    private List<String> validateAddress(User user) {
+        if (user.getAddress() != null) {
+            String validationMessage = addressSearchValidator.validateId(user.getAddress().getId());
+
+            if (validationMessage != null) {
+                return Collections.singletonList(validationMessage);
+            }
+        }
+
+        return Collections.emptyList();
     }
 
     private String generateErrorMessage(String template) {

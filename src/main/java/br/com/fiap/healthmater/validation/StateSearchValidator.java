@@ -1,25 +1,25 @@
 package br.com.fiap.healthmater.validation;
 
-import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.repository.ProfileRepository;
+import br.com.fiap.healthmater.entity.City;
+import br.com.fiap.healthmater.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Validator class for {@link User} searching methods.
+ * Validator class for {@link City} searching methods.
  *
  * @author Gabriel Oliveira
  */
 @Component
-public class ProfileSearchValidator {
+public class StateSearchValidator {
 
-    private static final String INVALID_ID_MESSAGE_TEMPLATE = "Profile not found for the given ID '%s'";
+    private static final String INVALID_ID_MESSAGE_TEMPLATE = "State not found for the given ID '%s'";
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private StateRepository stateRepository;
 
     public String validateId(Integer id) {
-        if (!profileRepository.findById(id).isPresent()) {
+        if (!stateRepository.findById(id).isPresent()) {
             return generateErrorMessage(INVALID_ID_MESSAGE_TEMPLATE, id);
         }
 

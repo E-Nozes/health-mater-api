@@ -16,6 +16,7 @@ public class State {
 
     @Id
     @Column(name = "state_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty

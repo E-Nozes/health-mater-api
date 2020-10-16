@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserSearchValidator {
 
-    private static final String INVALID_ID_MESSAGE_TEMPLATE = "User not found for the given ID [%s]";
-    private static final String INVALID_EMAIL_MESSAGE_TEMPLATE = "User not found for the given e-mail [%s]";
+    private static final String INVALID_ID_MESSAGE_TEMPLATE = "User not found for the given ID '%s'";
+    private static final String INVALID_EMAIL_MESSAGE_TEMPLATE = "User not found for the given e-mail '%s'";
     private static final String DUPLICATE_EMAIL_MESSAGE_TEMPLATE = "The given e-mail '%s' is already taken. Please choose another one";
 
     @Autowired

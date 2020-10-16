@@ -20,6 +20,7 @@ public class Permission {
 
     @Id
     @Column(name = "permission_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty

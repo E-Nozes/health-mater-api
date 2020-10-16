@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  *
  * @author Gabriel Oliveira
  */
-public class CryptPasswordGenerator {
+public class CryptPasswordGeneratorUtils {
 
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

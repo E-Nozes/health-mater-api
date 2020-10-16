@@ -17,6 +17,7 @@ public class Address {
 
     @Id
     @Column(name = "address_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
