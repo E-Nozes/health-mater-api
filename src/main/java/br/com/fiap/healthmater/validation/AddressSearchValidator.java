@@ -1,9 +1,15 @@
 package br.com.fiap.healthmater.validation;
 
+import br.com.fiap.healthmater.entity.Address;
 import br.com.fiap.healthmater.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Validator class for {@link Address} searching methods.
+ *
+ * @author Gabriel Oliveira
+ */
 @Component
 public class AddressSearchValidator {
 

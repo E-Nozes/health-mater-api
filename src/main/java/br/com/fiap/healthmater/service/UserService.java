@@ -12,7 +12,6 @@ import br.com.fiap.healthmater.validation.UserSearchValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,20 +34,24 @@ public class UserService {
     private CityRepository cityRepository;
 
     @Autowired
-    private UserRegisterValidator registerValidator;
+    private UserRegisterValidator userRegisterValidator;
 
     @Autowired
-    private UserSearchValidator searchValidator;
+    private UserSearchValidator userSearchValidator;
 
     public User findById(Integer id) {
-        User user = this.searchValidator.verifyIfExists(id);
+        User user = this.userSearchValidator.verifyIfExists(id);
         user.setPassword(null);
 
         return user;
     }
 
     public User create(User user) {
-        User validUser = this.validateRegistrationPayload(user);
+        User validUser = validateRegistrationPayload(user);
+
+        if (user.getAddress() != null) {
+            validUser = persistAddress(user);
+        }
 
         User persistentUser = this.userRepository.save(validUser);
 
@@ -57,8 +60,8 @@ public class UserService {
         return persistentUser;
     }
 
-    public User validateRegistrationPayload(User user) {
-        List<String> validationMessages = this.registerValidator.validate(user);
+    private User validateRegistrationPayload(User user) {
+        List<String> validationMessages = this.userRegisterValidator.validate(user);
 
         UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
 
@@ -67,6 +70,23 @@ public class UserService {
         }
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        return user;
+    }
+
+    private User persistAddress(User user) {
+        Address receivedAddress = user.getAddress();
+
+        Optional<City> existingCity = this.cityRepository.findByNameIgnoreCase(receivedAddress.getCity().getName());
+        if (existingCity.isPresent()) {
+            receivedAddress.setCity(existingCity.get());
+        } else {
+            receivedAddress.setCity(this.cityRepository.save(receivedAddress.getCity()));
+        }
+
+        Address persistentAddress = this.addressRepository.save(receivedAddress);
+
+        user.setAddress(persistentAddress);
+
         return user;
     }
 

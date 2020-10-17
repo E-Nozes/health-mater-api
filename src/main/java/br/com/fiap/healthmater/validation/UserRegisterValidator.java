@@ -29,7 +29,7 @@ public class UserRegisterValidator implements UserValidator {
     private ProfileSearchValidator profileSearchValidator;
 
     @Autowired
-    private AddressSearchValidator addressSearchValidator;
+    private AddressRegisterValidator addressRegisterValidator;
 
     @Override
     public List<String> validate(User user) {
@@ -44,7 +44,7 @@ public class UserRegisterValidator implements UserValidator {
     }
 
     private List<String> validateEmail(User user) {
-        String validationMessage = userSearchValidator.validateEmail(user.getEmail());
+        String validationMessage = this.userSearchValidator.validateEmail(user.getEmail());
 
         if (validationMessage == null) {
             return Collections.emptyList();
@@ -67,7 +67,7 @@ public class UserRegisterValidator implements UserValidator {
         if (user.getProfiles() != null && !user.getProfiles().isEmpty()) {
             return user.getProfiles().stream()
                     .map(Profile::getId)
-                    .map(id -> profileSearchValidator.validateId(id))
+                    .map(id -> this.profileSearchValidator.validateId(id))
                     .filter(Objects::nonNull)
                     .collect(toList());
         }
@@ -77,11 +77,7 @@ public class UserRegisterValidator implements UserValidator {
 
     private List<String> validateAddress(User user) {
         if (user.getAddress() != null) {
-            String validationMessage = addressSearchValidator.validateId(user.getAddress().getId());
-
-            if (validationMessage != null) {
-                return Collections.singletonList(validationMessage);
-            }
+            return this.addressRegisterValidator.validate(user.getAddress());
         }
 
         return Collections.emptyList();

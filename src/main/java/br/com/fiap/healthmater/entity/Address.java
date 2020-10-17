@@ -34,6 +34,11 @@ public class Address {
     @Column(length = 50)
     private String complement;
 
+    @NotEmpty
+    @Size(min = 9, max = 9)
+    @Column(length = 9, nullable = false)
+    private String zipCode;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
@@ -71,6 +76,14 @@ public class Address {
         this.complement = complement;
     }
 
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
     public City getCity() {
         return city;
     }
@@ -86,6 +99,7 @@ public class Address {
                 ", address='" + address + '\'' +
                 ", number='" + number + '\'' +
                 ", complement='" + complement + '\'' +
+                ", zipCode='" + zipCode + '\'' +
                 ", city=" + city +
                 '}';
     }
