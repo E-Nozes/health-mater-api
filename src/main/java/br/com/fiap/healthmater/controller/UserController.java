@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * Expose the API endpoints for {@link User} resources.
@@ -27,7 +30,7 @@ public class UserController implements UserResource {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "Gets an User based on it's ID")
+    @ApiOperation(value = "Get an User based on it's ID")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "User not found for the given ID"),
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
@@ -35,6 +38,16 @@ public class UserController implements UserResource {
     @PreAuthorize("hasAuthority('ROLE_SEARCH_USER') and #oauth2.hasScope('read')")
     public User findById(@PathVariable("id") Integer id) {
         return userService.findById(id);
+    }
+
+    @ApiOperation(value = "Register a new User")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid payload information"),
+            @ApiResponse(code = 500, message = "Something Unexpected Happened")
+    })
+    @PreAuthorize("hasAuthority('ROLE_REGISTER_USER') and #oauth2.hasScope('write')")
+    public User create(@RequestBody @Valid User user) {
+        return userService.create(user);
     }
 
 }

@@ -15,6 +15,7 @@ public class Like {
 
     @Id
     @Column(name = "like_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

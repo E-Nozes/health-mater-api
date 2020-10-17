@@ -12,9 +12,6 @@ public abstract class ValidationFailure extends RuntimeException {
 
     private List<String> validationMessages = new ArrayList<>();
 
-    public ValidationFailure() {
-    }
-
     public ValidationFailure(List<String> validationMessages) {
         this.validationMessages = validationMessages;
     }

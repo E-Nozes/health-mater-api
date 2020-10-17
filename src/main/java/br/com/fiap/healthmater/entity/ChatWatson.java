@@ -13,11 +13,12 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table
+@Table(name = "chat_watson")
 public class ChatWatson {
 
     @Id
     @Column(name = "chat_watson_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
