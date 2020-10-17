@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.validation;
+package br.com.fiap.healthmater.validation.contract;
 
 import br.com.fiap.healthmater.entity.Address;
 

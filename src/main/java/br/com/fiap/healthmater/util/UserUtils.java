@@ -1,7 +1,7 @@
 package br.com.fiap.healthmater.util;
 
 import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.validation.UserSearchValidator;
+import br.com.fiap.healthmater.validation.search.UserSearchValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

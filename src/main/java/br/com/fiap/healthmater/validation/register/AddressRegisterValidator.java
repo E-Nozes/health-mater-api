@@ -1,8 +1,10 @@
-package br.com.fiap.healthmater.validation;
+package br.com.fiap.healthmater.validation.register;
 
 import br.com.fiap.healthmater.entity.Address;
 import br.com.fiap.healthmater.entity.City;
 import br.com.fiap.healthmater.entity.State;
+import br.com.fiap.healthmater.validation.contract.AddressValidator;
+import br.com.fiap.healthmater.validation.search.StateSearchValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

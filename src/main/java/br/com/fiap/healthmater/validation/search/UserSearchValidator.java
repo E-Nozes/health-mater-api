@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.validation;
+package br.com.fiap.healthmater.validation.search;
 
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.exception.ResourceNotFoundException;
