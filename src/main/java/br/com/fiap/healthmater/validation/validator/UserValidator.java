@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.validation.contract;
+package br.com.fiap.healthmater.validation.validator;
 
 import br.com.fiap.healthmater.entity.User;
 
