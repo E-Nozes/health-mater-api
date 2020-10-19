@@ -1,20 +1,18 @@
 package br.com.fiap.healthmater.service;
 
-import br.com.fiap.healthmater.entity.Address;
-import br.com.fiap.healthmater.entity.City;
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.exception.UserValidationFailureException;
-import br.com.fiap.healthmater.repository.AddressRepository;
-import br.com.fiap.healthmater.repository.CityRepository;
+import br.com.fiap.healthmater.model.PasswordUpdateModel;
 import br.com.fiap.healthmater.repository.UserRepository;
+import br.com.fiap.healthmater.util.UserUtils;
 import br.com.fiap.healthmater.validation.register.UserRegisterValidator;
 import br.com.fiap.healthmater.validation.search.UserSearchValidator;
+import br.com.fiap.healthmater.validation.update.PasswordUpdateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service class for {@link User} with business rules.
@@ -28,16 +26,19 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
-    private CityRepository cityRepository;
+    private AddressService addressService;
 
     @Autowired
     private UserRegisterValidator userRegisterValidator;
 
     @Autowired
     private UserSearchValidator userSearchValidator;
+
+    @Autowired
+    private PasswordUpdateValidator passwordUpdateValidator;
+
+    @Autowired
+    private UserUtils userUtils;
 
     public User findById(Integer id) {
         User user = this.userSearchValidator.verifyIfExists(id);
@@ -49,8 +50,8 @@ public class UserService {
     public User create(User user) {
         User validUser = validateRegistrationPayload(user);
 
-        if (user.getAddress() != null) {
-            validUser = persistAddress(user);
+        if (validUser.getAddress() != null) {
+            validUser = this.addressService.persistAddress(validUser);
         }
 
         User persistentUser = this.userRepository.save(validUser);
@@ -60,33 +61,34 @@ public class UserService {
         return persistentUser;
     }
 
+    public User updatePassword(PasswordUpdateModel passwordUpdateModel) {
+        List<String> validationMessages = this.passwordUpdateValidator.validate(passwordUpdateModel);
+
+        UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
+        if (validationFailure.hasValidationFailures()) {
+            throw validationFailure;
+        }
+
+        User user = this.userUtils.findLoggedUser();
+
+        user.setPassword(new BCryptPasswordEncoder().encode(passwordUpdateModel.getNewPassword()));
+
+        this.userRepository.save(user);
+
+        user.setPassword(null);
+
+        return user;
+    }
+
     private User validateRegistrationPayload(User user) {
         List<String> validationMessages = this.userRegisterValidator.validate(user);
 
         UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
-
         if (validationFailure.hasValidationFailures()) {
             throw validationFailure;
         }
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return user;
-    }
-
-    private User persistAddress(User user) {
-        Address receivedAddress = user.getAddress();
-
-        Optional<City> existingCity = this.cityRepository.findByNameIgnoreCase(receivedAddress.getCity().getName());
-        if (existingCity.isPresent()) {
-            receivedAddress.setCity(existingCity.get());
-        } else {
-            receivedAddress.setCity(this.cityRepository.save(receivedAddress.getCity()));
-        }
-
-        Address persistentAddress = this.addressRepository.save(receivedAddress);
-
-        user.setAddress(persistentAddress);
-
         return user;
     }
 

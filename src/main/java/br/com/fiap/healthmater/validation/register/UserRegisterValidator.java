@@ -2,9 +2,9 @@ package br.com.fiap.healthmater.validation.register;
 
 import br.com.fiap.healthmater.entity.Profile;
 import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.validation.validator.UserValidator;
 import br.com.fiap.healthmater.validation.search.ProfileSearchValidator;
 import br.com.fiap.healthmater.validation.search.UserSearchValidator;
+import br.com.fiap.healthmater.validation.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -47,23 +47,17 @@ public class UserRegisterValidator implements UserValidator {
     }
 
     private List<String> validateEmail(User user) {
-        String validationMessage = this.userSearchValidator.validateEmail(user.getEmail());
+        String validationMessage = this.userSearchValidator.validateDuplicatedEmail(user.getEmail());
 
-        if (validationMessage == null) {
-            return Collections.emptyList();
-        }
-
-        return Collections.singletonList(validationMessage);
+        return validationMessage == null ? Collections.emptyList() : Collections.singletonList(validationMessage);
     }
 
     private List<String> validatePassword(User user) {
         String password = user.getPassword();
 
-        if (password.length() < 8 || password.length() > 16) {
-            return Collections.singletonList(generateErrorMessage(INVALID_PASSWORD_MESSAGE_TEMPLATE));
-        } else {
-            return Collections.emptyList();
-        }
+        return password.length() < 8 || password.length() > 16
+                ? Collections.singletonList(generateErrorMessage(INVALID_PASSWORD_MESSAGE_TEMPLATE))
+                : Collections.emptyList();
     }
 
     private List<String> validateProfiles(User user) {
