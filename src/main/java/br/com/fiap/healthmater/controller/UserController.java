@@ -1,6 +1,7 @@
 package br.com.fiap.healthmater.controller;
 
 import br.com.fiap.healthmater.entity.User;
+import br.com.fiap.healthmater.model.PasswordUpdateModel;
 import br.com.fiap.healthmater.resource.UserResource;
 import br.com.fiap.healthmater.service.UserService;
 import io.swagger.annotations.Api;
@@ -8,7 +9,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,8 +39,28 @@ public class UserController implements UserResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_SEARCH_USER') and #oauth2.hasScope('read')")
-    public User findById(@PathVariable("id") Integer id) {
-        return userService.findById(id);
+    public ResponseEntity<User> findById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Register a new User")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid payload information"),
+            @ApiResponse(code = 500, message = "Something Unexpected Happened")
+    })
+    @PreAuthorize("hasAuthority('ROLE_REGISTER_USER') and #oauth2.hasScope('write')")
+    public ResponseEntity<User> create(@RequestBody @Valid User user) {
+        return new ResponseEntity<>(userService.create(user), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Update password")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid payload information"),
+            @ApiResponse(code = 500, message = "Something Unexpected Happened")
+    })
+    @PreAuthorize("hasAuthority('ROLE_UPDATE_USER') and #oauth2.hasScope('write')")
+    public ResponseEntity<User> updatePassword(@RequestBody @Valid PasswordUpdateModel passwordUpdateModel) {
+        return new ResponseEntity<>(userService.updatePassword(passwordUpdateModel), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Register a new User")
