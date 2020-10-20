@@ -29,6 +29,9 @@ public class UserService {
     private AddressService addressService;
 
     @Autowired
+    private ProfileService profileService;
+
+    @Autowired
     private UserRegisterValidator userRegisterValidator;
 
     @Autowired
@@ -53,6 +56,8 @@ public class UserService {
         if (validUser.getAddress() != null) {
             validUser = this.addressService.persistAddress(validUser);
         }
+
+        validUser = this.profileService.addDefaultProfile(validUser);
 
         User persistentUser = this.userRepository.save(validUser);
 

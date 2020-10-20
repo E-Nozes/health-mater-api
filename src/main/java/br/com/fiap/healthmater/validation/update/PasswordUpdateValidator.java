@@ -20,6 +20,9 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class PasswordUpdateValidator implements PasswordValidator {
 
+    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final int MAX_PASSWORD_LENGTH = 16;
+
     private static final String INVALID_PASSWORD_MESSAGE_TEMPLATE = "The password must be the size between 8 and 16 characters. Please choose another one";
     private static final String PASSWORD_MISMATCH_MESSAGE_TEMPLATE = "The given new passwords don't match";
 
@@ -40,7 +43,7 @@ public class PasswordUpdateValidator implements PasswordValidator {
     private List<String> validateInput(PasswordUpdateModel passwordUpdateModel) {
         String password = passwordUpdateModel.getNewPassword();
 
-        return password.length() < 8 || password.length() > 16
+        return password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH
                 ? Collections.singletonList(generateErrorMessage(INVALID_PASSWORD_MESSAGE_TEMPLATE))
                 : Collections.emptyList();
     }

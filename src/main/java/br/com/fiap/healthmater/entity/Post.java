@@ -1,10 +1,13 @@
 package br.com.fiap.healthmater.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Map the 'post' table in the database.
@@ -30,6 +33,10 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    private Set<Like> likes;
+
     public Integer getId() {
         return id;
     }
@@ -54,12 +61,21 @@ public class Post {
         this.user = user;
     }
 
+    public Set<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", user=" + user +
+                ", user=" + user + '\'' +
+                ", likes=" + likes.size() +
                 '}';
     }
 
