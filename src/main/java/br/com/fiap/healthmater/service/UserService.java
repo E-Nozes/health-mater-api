@@ -61,7 +61,7 @@ public class UserService {
         return persistentUser;
     }
 
-    public User updatePassword(PasswordUpdateModel passwordUpdateModel) {
+    public void updatePassword(PasswordUpdateModel passwordUpdateModel) {
         List<String> validationMessages = this.passwordUpdateValidator.validate(passwordUpdateModel);
 
         UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
@@ -74,10 +74,6 @@ public class UserService {
         user.setPassword(new BCryptPasswordEncoder().encode(passwordUpdateModel.getNewPassword()));
 
         this.userRepository.save(user);
-
-        user.setPassword(null);
-
-        return user;
     }
 
     private User validateRegistrationPayload(User user) {

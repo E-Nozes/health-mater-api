@@ -59,18 +59,9 @@ public class UserController implements UserResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_UPDATE_USER') and #oauth2.hasScope('write')")
-    public ResponseEntity<User> updatePassword(@RequestBody @Valid PasswordUpdateModel passwordUpdateModel) {
-        return new ResponseEntity<>(userService.updatePassword(passwordUpdateModel), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "Register a new User")
-    @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Invalid payload information"),
-            @ApiResponse(code = 500, message = "Something Unexpected Happened")
-    })
-    @PreAuthorize("hasAuthority('ROLE_REGISTER_USER') and #oauth2.hasScope('write')")
-    public User create(@RequestBody @Valid User user) {
-        return userService.create(user);
+    public ResponseEntity<HttpStatus> updatePassword(@RequestBody @Valid PasswordUpdateModel passwordUpdateModel) {
+        userService.updatePassword(passwordUpdateModel);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

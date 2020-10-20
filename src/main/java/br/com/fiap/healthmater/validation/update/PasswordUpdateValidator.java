@@ -28,16 +28,16 @@ public class PasswordUpdateValidator implements PasswordValidator {
 
     @Override
     public List<String> validate(PasswordUpdateModel passwordUpdateModel) {
-        Stream<String> validPassword = validatePassword(passwordUpdateModel).stream();
+        Stream<String> validInput = validateInput(passwordUpdateModel).stream();
         Stream<String> validCurrentPassword = validateCurrentPassword(passwordUpdateModel).stream();
         Stream<String> passwordsMatch = validateMatch(passwordUpdateModel).stream();
 
-        return Stream.of(validPassword, validCurrentPassword, passwordsMatch)
+        return Stream.of(validInput, validCurrentPassword, passwordsMatch)
                 .flatMap(s -> s)
                 .collect(toList());
     }
 
-    private List<String> validatePassword(PasswordUpdateModel passwordUpdateModel) {
+    private List<String> validateInput(PasswordUpdateModel passwordUpdateModel) {
         String password = passwordUpdateModel.getNewPassword();
 
         return password.length() < 8 || password.length() > 16

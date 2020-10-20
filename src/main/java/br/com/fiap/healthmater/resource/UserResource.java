@@ -2,6 +2,7 @@ package br.com.fiap.healthmater.resource;
 
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.model.PasswordUpdateModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,6 @@ public interface UserResource {
     public ResponseEntity<User> create(@RequestBody @Valid User user);
 
     @PutMapping("password")
-    public ResponseEntity<User> updatePassword(@RequestBody @Valid PasswordUpdateModel passwordUpdateModel);
+    public ResponseEntity<HttpStatus> updatePassword(@RequestBody @Valid PasswordUpdateModel passwordUpdateModel);
 
 }
