@@ -1,5 +1,12 @@
 package br.com.fiap.healthmater.dto;
 
+import br.com.fiap.healthmater.entity.User;
+
+/**
+ * Mapper class for {@link User}.
+ *
+ * @author Gabriel Oliveira
+ */
 public class UserDTO {
 
     private Integer id;

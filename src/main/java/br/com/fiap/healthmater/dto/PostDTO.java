@@ -1,7 +1,14 @@
 package br.com.fiap.healthmater.dto;
 
+import br.com.fiap.healthmater.entity.Post;
+
 import java.time.LocalDateTime;
 
+/**
+ * Mapper class for {@link Post}.
+ *
+ * @author Gabriel Oliveira
+ */
 public class PostDTO {
 
     private Integer id;

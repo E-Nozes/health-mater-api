@@ -4,6 +4,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * Mapper class for password update.
+ *
+ * @author Gabriel Oliveira
+ */
 public class PasswordUpdateDTO {
 
     @NotEmpty

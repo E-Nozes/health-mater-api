@@ -4,6 +4,8 @@ import br.com.fiap.healthmater.exception.PostValidationFailureException;
 import br.com.fiap.healthmater.exception.ResourceNotFoundException;
 import br.com.fiap.healthmater.exception.UserValidationFailureException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -33,16 +35,18 @@ import java.util.List;
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
     @Autowired
     private MessageSource messageSource;
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> userMessages = Collections.singletonList(messageSource.getMessage("message.invalid", null, LocaleContextHolder.getLocale()));
-        List<String> completeMessages = Collections.singletonList(ex.getCause() != null ? ex.getCause().toString() : ex.toString());
+        String completeMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
-
+        log.error(completeMessage);
         return handleExceptionInternal(ex, errorList, headers, HttpStatus.BAD_REQUEST, request);
     }
 
@@ -56,53 +60,57 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({EmptyResultDataAccessException.class})
     public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
         List<String> userMessages = Collections.singletonList(messageSource.getMessage("resource.not-found", null, LocaleContextHolder.getLocale()));
-        List<String> completeMessages = Collections.singletonList(ex.toString());
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        String completeMessage = ex.toString();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
+        log.error(completeMessage);
         return handleExceptionInternal(ex, errorList, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         List<String> userMessages = Collections.singletonList(messageSource.getMessage("resource.operation-not-allowed", null, LocaleContextHolder.getLocale()));
-        List<String> completeMessages = Collections.singletonList(ExceptionUtils.getRootCauseMessage(ex));
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        String completeMessage = ExceptionUtils.getRootCauseMessage(ex);
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
+        log.error(completeMessage);
         return handleExceptionInternal(ex, errorList, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleGenericException(Exception ex) {
         List<String> userMessages = Collections.singletonList(messageSource.getMessage("error.unexpected", null, LocaleContextHolder.getLocale()));
-        List<String> completeMessages = Collections.singletonList(ex.getMessage());
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        String completeMessage = ex.getMessage();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
+        log.error(completeMessage);
         return new ResponseEntity<>(errorList, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
         List<String> userMessages = Collections.singletonList(ex.getMessage());
-        List<String> completeMessages = Collections.singletonList(ex.getMessage());
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        String completeMessage = ex.getMessage();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
+        log.error(completeMessage);
         return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
         List<String> userMessages = Collections.singletonList(messageSource.getMessage("error.access-denied", null, LocaleContextHolder.getLocale()));
-        List<String> completeMessages = Collections.singletonList(ex.getMessage());
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        String completeMessage = ex.getMessage();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
+        log.error(completeMessage);
         return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({UserValidationFailureException.class})
     public ResponseEntity<Object> handleUserValidationFailureException(UserValidationFailureException ex) {
         List<String> userMessages = ex.getValidationMessages();
-        List<String> completeMessages = ex.getValidationMessages();
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
         return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
     }
@@ -110,8 +118,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({PostValidationFailureException.class})
     public ResponseEntity<Object> handleUserValidationFailureException(PostValidationFailureException ex) {
         List<String> userMessages = ex.getValidationMessages();
-        List<String> completeMessages = ex.getValidationMessages();
-        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
         return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
     }
@@ -121,8 +128,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
         bindingResult.getFieldErrors().forEach(fieldError -> {
             List<String> userMessages = Collections.singletonList(messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()));
-            List<String> completeMessages = Collections.singletonList(fieldError.toString());
-            errorList.add(new Error(userMessages, completeMessages));
+            String completeMessage = fieldError.toString();
+
+            log.error(completeMessage);
+
+            errorList.add(new Error(userMessages));
         });
 
         return errorList;
@@ -131,19 +141,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     public static class Error {
 
         private final List<String> userMessages;
-        private final List<String> completeMessages;
 
-        public Error(List<String> userMessages, List<String> completeMessages) {
+        public Error(List<String> userMessages) {
             this.userMessages = userMessages;
-            this.completeMessages = completeMessages;
         }
 
         public List<String> getUserMessage() {
             return userMessages;
-        }
-
-        public List<String> getCompleteMessage() {
-            return completeMessages;
         }
 
     }
