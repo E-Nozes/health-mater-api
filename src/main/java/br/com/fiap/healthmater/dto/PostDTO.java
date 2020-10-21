@@ -9,7 +9,6 @@ public class PostDTO {
     private String content;
     private UserDTO author;
     private LocalDateTime dateTime;
-    private Set<LikeDTO> likes;
 
     public Integer getId() {
         return id;
@@ -41,18 +40,6 @@ public class PostDTO {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    public Set<LikeDTO> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Set<LikeDTO> likes) {
-        this.likes = likes;
-    }
-
-    public Integer getTotalLikes() {
-        return likes.size();
     }
 
 }
