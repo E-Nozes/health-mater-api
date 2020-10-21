@@ -1,5 +1,6 @@
 package br.com.fiap.healthmater.resource;
 
+import br.com.fiap.healthmater.dto.PostDTO;
 import br.com.fiap.healthmater.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 public interface PostResource {
 
     @GetMapping
-    public ResponseEntity<Page<Post>> findAll(Pageable pageable);
+    public ResponseEntity<Page<PostDTO>> findAll(Pageable pageable);
 
     @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid Post post);

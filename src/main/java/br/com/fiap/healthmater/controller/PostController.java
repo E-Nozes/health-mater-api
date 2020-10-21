@@ -1,5 +1,6 @@
 package br.com.fiap.healthmater.controller;
 
+import br.com.fiap.healthmater.dto.PostDTO;
 import br.com.fiap.healthmater.entity.Post;
 import br.com.fiap.healthmater.resource.PostResource;
 import br.com.fiap.healthmater.service.PostService;
@@ -38,7 +39,7 @@ public class PostController implements PostResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_SEARCH_POST') and #oauth2.hasScope('read')")
-    public ResponseEntity<Page<Post>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<PostDTO>> findAll(Pageable pageable) {
         return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 

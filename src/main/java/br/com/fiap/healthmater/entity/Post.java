@@ -79,6 +79,10 @@ public class Post {
         this.likes = likes;
     }
 
+    public Integer getTotalLikes() {
+        return likes.size();
+    }
+
     @Override
     public String toString() {
         return "Post{" +
