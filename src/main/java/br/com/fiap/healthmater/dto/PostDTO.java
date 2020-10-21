@@ -1,7 +1,6 @@
 package br.com.fiap.healthmater.dto;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public class PostDTO {
 
