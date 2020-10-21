@@ -2,7 +2,7 @@ package br.com.fiap.healthmater.service;
 
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.exception.UserValidationFailureException;
-import br.com.fiap.healthmater.model.PasswordUpdateModel;
+import br.com.fiap.healthmater.dto.PasswordUpdateDTO;
 import br.com.fiap.healthmater.repository.UserRepository;
 import br.com.fiap.healthmater.util.UserUtils;
 import br.com.fiap.healthmater.validation.register.UserRegisterValidator;
@@ -66,8 +66,8 @@ public class UserService {
         return persistentUser;
     }
 
-    public void updatePassword(PasswordUpdateModel passwordUpdateModel) {
-        List<String> validationMessages = this.passwordUpdateValidator.validate(passwordUpdateModel);
+    public void updatePassword(PasswordUpdateDTO passwordUpdateDTO) {
+        List<String> validationMessages = this.passwordUpdateValidator.validate(passwordUpdateDTO);
 
         UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
         if (validationFailure.hasValidationFailures()) {
@@ -76,7 +76,7 @@ public class UserService {
 
         User user = this.userUtils.findLoggedUser();
 
-        user.setPassword(new BCryptPasswordEncoder().encode(passwordUpdateModel.getNewPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(passwordUpdateDTO.getNewPassword()));
 
         this.userRepository.save(user);
     }

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,10 +28,12 @@ public class Post {
     @Column(nullable = false, length = 300)
     private String content;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User author;
+
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
 
     @JsonIgnore
     @OneToMany(mappedBy = "post")
@@ -53,12 +55,20 @@ public class Post {
         this.content = content;
     }
 
-    public User getUser() {
-        return user;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public Set<Like> getLikes() {
@@ -69,12 +79,17 @@ public class Post {
         this.likes = likes;
     }
 
+    public Integer getTotalLikes() {
+        return likes.size();
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", user=" + user + '\'' +
+                ", author=" + author +
+                ", dateTime=" + dateTime +
                 ", likes=" + likes.size() +
                 '}';
     }
@@ -85,12 +100,13 @@ public class Post {
         if (!(o instanceof Post)) return false;
         Post post = (Post) o;
         return getId().equals(post.getId()) &&
-                getUser().equals(post.getUser());
+                getAuthor().equals(post.getAuthor()) &&
+                getDateTime().equals(post.getDateTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser());
+        return Objects.hash(getId(), getAuthor(), getDateTime());
     }
 
 }
