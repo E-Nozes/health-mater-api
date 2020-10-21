@@ -1,4 +1,4 @@
-package br.com.fiap.healthmater.validation.validator;
+package br.com.fiap.healthmater.validation;
 
 import br.com.fiap.healthmater.entity.Address;
 

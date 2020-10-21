@@ -1,7 +1,7 @@
 package br.com.fiap.healthmater.controller;
 
 import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.model.PasswordUpdateModel;
+import br.com.fiap.healthmater.dto.PasswordUpdateDTO;
 import br.com.fiap.healthmater.resource.UserResource;
 import br.com.fiap.healthmater.service.UserService;
 import io.swagger.annotations.Api;
@@ -59,8 +59,8 @@ public class UserController implements UserResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_UPDATE_USER') and #oauth2.hasScope('write')")
-    public ResponseEntity<HttpStatus> updatePassword(@RequestBody @Valid PasswordUpdateModel passwordUpdateModel) {
-        userService.updatePassword(passwordUpdateModel);
+    public ResponseEntity<HttpStatus> updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO) {
+        userService.updatePassword(passwordUpdateDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -1,10 +1,10 @@
-package br.com.fiap.healthmater.model;
+package br.com.fiap.healthmater.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;
 
-public class PasswordUpdateModel {
+public class PasswordUpdateDTO {
 
     @NotEmpty
     @ApiModelProperty(required = true, value = "The user's current password")

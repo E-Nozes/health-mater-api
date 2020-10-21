@@ -1,9 +1,11 @@
 package br.com.fiap.healthmater.exception;
 
+import br.com.fiap.healthmater.entity.User;
+
 import java.util.List;
 
 /**
- * Custom exception class for user-payload validation failure.
+ * Custom exception class for {@link User} payload validation failure.
  *
  * @author Gabriel Oliveira
  */

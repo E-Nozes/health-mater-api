@@ -1,8 +1,8 @@
 package br.com.fiap.healthmater.validation.update;
 
-import br.com.fiap.healthmater.model.PasswordUpdateModel;
+import br.com.fiap.healthmater.dto.PasswordUpdateDTO;
 import br.com.fiap.healthmater.validation.search.UserSearchValidator;
-import br.com.fiap.healthmater.validation.validator.PasswordValidator;
+import br.com.fiap.healthmater.validation.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,32 +30,32 @@ public class PasswordUpdateValidator implements PasswordValidator {
     private UserSearchValidator userSearchValidator;
 
     @Override
-    public List<String> validate(PasswordUpdateModel passwordUpdateModel) {
-        Stream<String> validInput = validateInput(passwordUpdateModel).stream();
-        Stream<String> validCurrentPassword = validateCurrentPassword(passwordUpdateModel).stream();
-        Stream<String> passwordsMatch = validateMatch(passwordUpdateModel).stream();
+    public List<String> validate(PasswordUpdateDTO passwordUpdateDTO) {
+        Stream<String> validInput = validateInput(passwordUpdateDTO).stream();
+        Stream<String> validCurrentPassword = validateCurrentPassword(passwordUpdateDTO).stream();
+        Stream<String> passwordsMatch = validateMatch(passwordUpdateDTO).stream();
 
         return Stream.of(validInput, validCurrentPassword, passwordsMatch)
                 .flatMap(s -> s)
                 .collect(toList());
     }
 
-    private List<String> validateInput(PasswordUpdateModel passwordUpdateModel) {
-        String password = passwordUpdateModel.getNewPassword();
+    private List<String> validateInput(PasswordUpdateDTO passwordUpdateDTO) {
+        String password = passwordUpdateDTO.getNewPassword();
 
         return password.length() < MIN_PASSWORD_LENGTH || password.length() > MAX_PASSWORD_LENGTH
                 ? Collections.singletonList(generateErrorMessage(INVALID_PASSWORD_MESSAGE_TEMPLATE))
                 : Collections.emptyList();
     }
 
-    private List<String> validateCurrentPassword(PasswordUpdateModel passwordUpdateModel) {
-        String validationMessage = this.userSearchValidator.validatePassword(passwordUpdateModel.getOldPassword());
+    private List<String> validateCurrentPassword(PasswordUpdateDTO passwordUpdateDTO) {
+        String validationMessage = this.userSearchValidator.validatePassword(passwordUpdateDTO.getOldPassword());
 
         return validationMessage == null ? Collections.emptyList() : Collections.singletonList(validationMessage);
     }
 
-    private List<String> validateMatch(PasswordUpdateModel passwordUpdateModel) {
-        return passwordUpdateModel.getNewPassword().equals(passwordUpdateModel.getRepeatPassword())
+    private List<String> validateMatch(PasswordUpdateDTO passwordUpdateDTO) {
+        return passwordUpdateDTO.getNewPassword().equals(passwordUpdateDTO.getRepeatPassword())
                 ? Collections.emptyList()
                 : Collections.singletonList(generateErrorMessage(PASSWORD_MISMATCH_MESSAGE_TEMPLATE));
     }

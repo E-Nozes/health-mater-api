@@ -1,5 +1,6 @@
 package br.com.fiap.healthmater.exception.handler;
 
+import br.com.fiap.healthmater.exception.PostValidationFailureException;
 import br.com.fiap.healthmater.exception.ResourceNotFoundException;
 import br.com.fiap.healthmater.exception.UserValidationFailureException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -99,6 +100,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({UserValidationFailureException.class})
     public ResponseEntity<Object> handleUserValidationFailureException(UserValidationFailureException ex) {
+        List<String> userMessages = ex.getValidationMessages();
+        List<String> completeMessages = ex.getValidationMessages();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
+
+        return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({PostValidationFailureException.class})
+    public ResponseEntity<Object> handleUserValidationFailureException(PostValidationFailureException ex) {
         List<String> userMessages = ex.getValidationMessages();
         List<String> completeMessages = ex.getValidationMessages();
         List<Error> errorList = Collections.singletonList(new Error(userMessages, completeMessages));
