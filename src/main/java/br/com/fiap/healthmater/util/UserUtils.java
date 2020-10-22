@@ -21,12 +21,9 @@ public class UserUtils {
     public User findLoggedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails) principal).getUsername();
-        } else {
-            email = principal.toString();
-        }
+        String email = principal instanceof UserDetails
+                ? ((UserDetails) principal).getUsername()
+                : principal.toString();
 
         return this.searchValidator.verifyIfExistsByEmail(email);
     }
