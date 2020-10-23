@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Gabriel Oliveira
  */
 @Entity
-@Table
+@Table(name = "[like]")
 public class Like {
 
     @Id
@@ -23,7 +23,6 @@ public class Like {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
