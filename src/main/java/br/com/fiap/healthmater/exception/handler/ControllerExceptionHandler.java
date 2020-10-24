@@ -1,5 +1,6 @@
 package br.com.fiap.healthmater.exception.handler;
 
+import br.com.fiap.healthmater.exception.LikeValidationFailureException;
 import br.com.fiap.healthmater.exception.PostValidationFailureException;
 import br.com.fiap.healthmater.exception.ResourceNotFoundException;
 import br.com.fiap.healthmater.exception.UserValidationFailureException;
@@ -117,6 +118,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({PostValidationFailureException.class})
     public ResponseEntity<Object> handleUserValidationFailureException(PostValidationFailureException ex) {
+        List<String> userMessages = ex.getValidationMessages();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
+
+        return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({LikeValidationFailureException.class})
+    public ResponseEntity<Object> handleLikeValidationFailureException(LikeValidationFailureException ex) {
         List<String> userMessages = ex.getValidationMessages();
         List<Error> errorList = Collections.singletonList(new Error(userMessages));
 

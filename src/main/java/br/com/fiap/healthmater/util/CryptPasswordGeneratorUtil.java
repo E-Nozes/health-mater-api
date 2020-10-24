@@ -16,7 +16,7 @@ public class CryptPasswordGeneratorUtil {
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        String output = String.format("Output: %s", encoder.encode("test"));
+        String output = String.format("Output: %s", encoder.encode("your_password"));
 
         log.info(output);
     }

@@ -13,7 +13,7 @@ public class SwaggerParameters {
 
     protected static final String DESCRIPTION = "FIAP AM 2020";
 
-    protected static final String API_VERSION = "0.0.1-SNAPSHOT";
+    protected static final String API_VERSION = "1.0.0-RELEASE";
 
     protected static final Contact CONTACT = new Contact("Gabriel Guarido",
             "https://www.linkedin.com/in/gabriel-guarido-oliveira/",
