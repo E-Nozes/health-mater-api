@@ -10,8 +10,8 @@
     </parent>
     <groupId>br.com.fiap.healthmater</groupId>
     <artifactId>health-mater</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>health-mater</name>
+    <version>1.0.0-RELEASE</version>
+    <name>health-mater-api</name>
     <description>Health Mater API - AM challenge</description>
 
     <properties>
