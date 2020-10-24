@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,17 @@ public class LikeController implements LikeResource {
     @PreAuthorize("hasAuthority('ROLE_REGISTER_LIKE') and #oauth2.hasScope('write')")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid Like like) {
         likeService.create(like);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "Disassociate a like to a Post")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid content provided"),
+            @ApiResponse(code = 500, message = "Something Unexpected Happened")
+    })
+    @PreAuthorize("hasAuthority('ROLE_REMOVE_LIKE') and #oauth2.hasScope('write')")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("post-id") Integer postId) {
+        likeService.delete(postId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

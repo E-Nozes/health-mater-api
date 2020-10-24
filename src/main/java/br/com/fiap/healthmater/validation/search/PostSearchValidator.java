@@ -19,8 +19,8 @@ public class PostSearchValidator {
     @Autowired
     private PostRepository postRepository;
 
-    public void verifyIfExists(Integer id) {
-        this.postRepository.findById(id).orElseThrow(() ->
+    public Post verifyIfExists(Integer id) {
+        return this.postRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(generateErrorMessage(INVALID_ID_MESSAGE_TEMPLATE, id)));
     }
 
