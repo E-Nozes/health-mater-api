@@ -1,12 +1,11 @@
 package br.com.fiap.healthmater.builder;
 
-import br.com.fiap.healthmater.entity.Address;
-import br.com.fiap.healthmater.entity.City;
-import br.com.fiap.healthmater.entity.State;
-import br.com.fiap.healthmater.entity.User;
+import br.com.fiap.healthmater.entity.*;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.HashSet;
+import java.util.Set;
+
 public class EntityBuilder {
 
     public static User buildUser() {
@@ -14,6 +13,7 @@ public class EntityBuilder {
         user.setEmail("user@test.com");
         user.setPassword("12345678");
         user.setAddress(buildAddress());
+        user.setProfiles(buildProfiles());
 
         return user;
     }
@@ -43,6 +43,20 @@ public class EntityBuilder {
         state.setFederalUnity("SP");
 
         return state;
+    }
+
+    public static Set<Profile> buildProfiles() {
+        Set<Profile> profiles = new HashSet<>();
+        profiles.add(buildProfile());
+
+        return profiles;
+    }
+
+    public static Profile buildProfile() {
+        Profile profile = new Profile();
+        profile.setId(1);
+
+        return profile;
     }
 
 }
