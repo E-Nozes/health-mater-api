@@ -1,7 +1,11 @@
 package br.com.fiap.healthmater.builder;
 
 import br.com.fiap.healthmater.entity.*;
-import org.springframework.stereotype.Component;
+import br.com.fiap.healthmater.entity.Address.AddressBuilder;
+import br.com.fiap.healthmater.entity.City.CityBuilder;
+import br.com.fiap.healthmater.entity.Profile.ProfileBuilder;
+import br.com.fiap.healthmater.entity.State.StateBuilder;
+import br.com.fiap.healthmater.entity.User.UserBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,40 +13,42 @@ import java.util.Set;
 public class EntityBuilder {
 
     public static User buildUser() {
-        User user = new User();
-        user.setEmail("user@test.com");
-        user.setPassword("12345678");
-        user.setAddress(buildAddress());
-        user.setProfiles(buildProfiles());
-
-        return user;
+        return new UserBuilder()
+                .withEmail("user@test.com")
+                .withPassword("12345678")
+                .withAddress(buildAddress())
+                .withProfiles(buildProfiles())
+                .build();
     }
 
     public static Address buildAddress() {
-        Address address = new Address();
-        address.setAddress("Rua Vigário Albernaz 738");
-        address.setCity(buildCity());
-        address.setNumber("738");
-        address.setZipCode("04134-021");
-
-        return address;
+        return new AddressBuilder()
+                .withAddress("Rua Vigário Albernaz 738")
+                .withNumber("738")
+                .withZipCode("04134-021")
+                .withCity(buildCity())
+                .build();
     }
 
     public static City buildCity() {
-        City city = new City();
-        city.setName("São Paulo");
-        city.setState(buildState());
-
-        return city;
+        return new CityBuilder()
+                .withName("São Paulo")
+                .withState(buildState())
+                .build();
     }
 
     public static State buildState() {
-        State state = new State();
-        state.setId(24);
-        state.setName("São Paulo");
-        state.setFederalUnity("SP");
+        return new StateBuilder()
+                .withId(24)
+                .withName("São Paulo")
+                .withFederalUnity("SP")
+                .build();
+    }
 
-        return state;
+    public static Profile buildProfile() {
+        return new ProfileBuilder()
+                .withId(1)
+                .build();
     }
 
     public static Set<Profile> buildProfiles() {
@@ -50,13 +56,6 @@ public class EntityBuilder {
         profiles.add(buildProfile());
 
         return profiles;
-    }
-
-    public static Profile buildProfile() {
-        Profile profile = new Profile();
-        profile.setId(1);
-
-        return profile;
     }
 
 }

@@ -29,6 +29,15 @@ public class State {
     @Column(nullable = false, length = 2, unique = true)
     private String federalUnity;
 
+    private State(Integer id, @NotEmpty @Size(max = 50) String name, @NotEmpty @Size(max = 2) String federalUnity) {
+        this.id = id;
+        this.name = name;
+        this.federalUnity = federalUnity;
+    }
+
+    public State() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -74,6 +83,33 @@ public class State {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getFederalUnity());
+    }
+
+    public static class StateBuilder {
+
+        private Integer id;
+        private String name;
+        private String federalUnity;
+
+        public StateBuilder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public StateBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public StateBuilder withFederalUnity(String federalUnity) {
+            this.federalUnity = federalUnity;
+            return this;
+        }
+
+        public State build() {
+            return new State(id, name, federalUnity);
+        }
+
     }
 
 }

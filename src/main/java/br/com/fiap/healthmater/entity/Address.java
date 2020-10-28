@@ -44,6 +44,16 @@ public class Address {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
+    private Address(@NotEmpty @Size(max = 150) String address, @NotEmpty @Size(max = 10) String number, @NotEmpty @Size(min = 9, max = 9) String zipCode, @NotNull City city) {
+        this.address = address;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.city = city;
+    }
+
+    public Address() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -117,6 +127,39 @@ public class Address {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAddress(), getCity());
+    }
+
+    public static class AddressBuilder {
+
+        private String address;
+        private String number;
+        private String zipCode;
+        private City city;
+
+        public AddressBuilder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public AddressBuilder withNumber(String number) {
+            this.number = number;
+            return this;
+        }
+
+        public AddressBuilder withZipCode(String zipCode) {
+            this.zipCode = zipCode;
+            return this;
+        }
+
+        public AddressBuilder withCity(City city) {
+            this.city = city;
+            return this;
+        }
+
+        public Address build() {
+            return new Address(address, number, zipCode, city);
+        }
+
     }
 
 }
