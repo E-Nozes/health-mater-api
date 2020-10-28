@@ -88,7 +88,7 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", author=" + author +
+                ", author=" + author.getEmail() +
                 ", dateTime=" + dateTime +
                 ", likes=" + likes.size() +
                 '}';

@@ -60,7 +60,7 @@ public class ChatWatson {
         return "ChatWatson{" +
                 "id=" + id +
                 ", chatDate=" + chatDate +
-                ", user=" + user +
+                ", user=" + user.getEmail() +
                 '}';
     }
 

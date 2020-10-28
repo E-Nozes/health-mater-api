@@ -73,7 +73,7 @@ public class Comment {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", post=" + post +
-                ", user=" + user +
+                ", user=" + user.getEmail() +
                 '}';
     }
 

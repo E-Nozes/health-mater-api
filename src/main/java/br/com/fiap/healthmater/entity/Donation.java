@@ -89,7 +89,7 @@ public class Donation {
                 ", description='" + description + '\'' +
                 ", type='" + type + '\'' +
                 ", donationDate=" + donationDate +
-                ", user=" + user +
+                ", user=" + user.getEmail() +
                 '}';
     }
 
