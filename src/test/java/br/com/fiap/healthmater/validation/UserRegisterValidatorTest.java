@@ -12,13 +12,13 @@ import java.util.List;
 import static br.com.fiap.healthmater.builder.EntityBuilder.buildUser;
 
 @SpringBootTest
-public class UserRegisterValidatorTest {
+class UserRegisterValidatorTest {
 
     @Autowired
     private UserRegisterValidator validator;
 
     @Test
-    public void validateHappyPath() {
+    void validateHappyPath() {
         User user = buildUser();
 
         List<String> errors = this.validator.validate(user);
