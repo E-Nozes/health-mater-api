@@ -1,6 +1,6 @@
 package br.com.fiap.healthmater.entity;
 
-import br.com.fiap.healthmater.enumerator.DonationTypeEnum;
+import br.com.fiap.healthmater.enumerator.CurrencyEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -28,9 +28,13 @@ public class Donation {
     private String description;
 
     @NotNull
+    @Column(nullable = false)
+    private Double amount;
+
+    @NotNull
     @Enumerated
     @Column(nullable = false)
-    private DonationTypeEnum type;
+    private CurrencyEnum currency;
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -58,12 +62,20 @@ public class Donation {
         this.description = description;
     }
 
-    public DonationTypeEnum getType() {
-        return type;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setType(DonationTypeEnum type) {
-        this.type = type;
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public CurrencyEnum getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyEnum currency) {
+        this.currency = currency;
     }
 
     public LocalDate getDonationDate() {
@@ -87,7 +99,8 @@ public class Donation {
         return "Donation{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", type='" + type + '\'' +
+                ", amount=" + amount +
+                ", currency=" + currency +
                 ", donationDate=" + donationDate +
                 ", user=" + user.getEmail() +
                 '}';
@@ -99,13 +112,13 @@ public class Donation {
         if (!(o instanceof Donation)) return false;
         Donation donation = (Donation) o;
         return getId().equals(donation.getId()) &&
-                getType() == donation.getType() &&
+                getDonationDate().equals(donation.getDonationDate()) &&
                 getUser().equals(donation.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getType(), getUser());
+        return Objects.hash(getId(), getDonationDate(), getUser());
     }
 
 }
