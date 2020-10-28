@@ -30,6 +30,14 @@ public class City {
     @JoinColumn(name = "state_id", nullable = false)
     private State state;
 
+    private City(@NotEmpty @Size(max = 80) String name, @NotNull State state) {
+        this.name = name;
+        this.state = state;
+    }
+
+    public City() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -75,6 +83,27 @@ public class City {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getState());
+    }
+
+    public static class CityBuilder {
+
+        private String name;
+        private State state;
+
+        public CityBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CityBuilder withState(State state) {
+            this.state = state;
+            return this;
+        }
+
+        public City build() {
+            return new City(name, state);
+        }
+
     }
 
 }

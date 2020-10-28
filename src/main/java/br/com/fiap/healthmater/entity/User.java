@@ -58,6 +58,16 @@ public class User {
     @JoinTable(name = "user_profile", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "profile_id"))
     private Set<Profile> profiles = new HashSet<>();
 
+    private User(@Email @NotEmpty @Size(max = 120) String email, @NotEmpty String password, Address address, Set<Profile> profiles) {
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.profiles = profiles;
+    }
+
+    public User() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -158,6 +168,39 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getEmail(), getActive());
+    }
+
+    public static class UserBuilder {
+
+        private String email;
+        private String password;
+        private Address address;
+        private Set<Profile> profiles;
+
+        public UserBuilder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder withAddress(Address address) {
+            this.address = address;
+            return this;
+        }
+
+        public UserBuilder withProfiles(Set<Profile> profiles) {
+            this.profiles = profiles;
+            return this;
+        }
+
+        public User build() {
+            return new User(email, password, address, profiles);
+        }
+
     }
 
 }

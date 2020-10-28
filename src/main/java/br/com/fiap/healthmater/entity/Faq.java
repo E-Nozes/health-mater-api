@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -24,9 +23,12 @@ public class Faq {
     private Integer id;
 
     @NotEmpty
-    @Size(max = 100)
-    @Column(length = 100)
-    private String description;
+    @Column(nullable = false)
+    private String question;
+
+    @NotEmpty
+    @Column(nullable = false)
+    private String answer;
 
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -46,12 +48,20 @@ public class Faq {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public LocalDate getFaqDate() {
@@ -74,9 +84,10 @@ public class Faq {
     public String toString() {
         return "Faq{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
+                ", question='" + question + '\'' +
+                ", answer='" + answer + '\'' +
                 ", faqDate=" + faqDate +
-                ", user=" + user +
+                ", user=" + user.getEmail() +
                 '}';
     }
 

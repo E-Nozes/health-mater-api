@@ -42,6 +42,13 @@ public class Profile {
         }
     }
 
+    private Profile(Integer id) {
+        this.id = id;
+    }
+
+    public Profile() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -73,4 +80,20 @@ public class Profile {
     public void setPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
     }
+
+    public static class ProfileBuilder {
+
+        private Integer id;
+
+        public ProfileBuilder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Profile build() {
+            return new Profile(id);
+        }
+
+    }
+
 }

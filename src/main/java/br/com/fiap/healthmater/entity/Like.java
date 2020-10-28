@@ -56,7 +56,7 @@ public class Like {
         return "Like{" +
                 "id=" + id +
                 ", post=" + post +
-                ", user=" + user +
+                ", user=" + user.getEmail() +
                 '}';
     }
 
