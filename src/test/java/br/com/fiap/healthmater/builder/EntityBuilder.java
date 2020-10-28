@@ -9,35 +9,36 @@ import org.springframework.stereotype.Component;
 @Component
 public class EntityBuilder {
 
-    public User buildUser() {
+    public static User buildUser() {
         User user = new User();
         user.setEmail("user@test.com");
         user.setPassword("12345678");
-        user.setAddress(this.buildAddress());
+        user.setAddress(buildAddress());
 
         return user;
     }
 
-    public Address buildAddress() {
+    public static Address buildAddress() {
         Address address = new Address();
         address.setAddress("Rua Vigário Albernaz 738");
-        address.setCity(this.buildCity());
+        address.setCity(buildCity());
         address.setNumber("738");
         address.setZipCode("04134-021");
 
         return address;
     }
 
-    public City buildCity() {
+    public static City buildCity() {
         City city = new City();
         city.setName("São Paulo");
-        city.setState(this.buildState());
+        city.setState(buildState());
 
         return city;
     }
 
-    public State buildState() {
+    public static State buildState() {
         State state = new State();
+        state.setId(24);
         state.setName("São Paulo");
         state.setFederalUnity("SP");
 
