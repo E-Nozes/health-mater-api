@@ -1,13 +1,13 @@
 package br.com.fiap.healthmater.service;
 
+import br.com.fiap.healthmater.dto.PasswordUpdateDTO;
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.exception.UserValidationFailureException;
-import br.com.fiap.healthmater.dto.PasswordUpdateDTO;
 import br.com.fiap.healthmater.repository.UserRepository;
-import br.com.fiap.healthmater.util.UserUtils;
-import br.com.fiap.healthmater.validation.register.UserRegisterValidator;
+import br.com.fiap.healthmater.util.UserUtil;
+import br.com.fiap.healthmater.validation.PasswordValidator;
+import br.com.fiap.healthmater.validation.UserValidator;
 import br.com.fiap.healthmater.validation.search.UserSearchValidator;
-import br.com.fiap.healthmater.validation.update.PasswordUpdateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,16 +32,16 @@ public class UserService {
     private ProfileService profileService;
 
     @Autowired
-    private UserRegisterValidator userRegisterValidator;
+    private UserValidator userValidator;
 
     @Autowired
     private UserSearchValidator userSearchValidator;
 
     @Autowired
-    private PasswordUpdateValidator passwordUpdateValidator;
+    private PasswordValidator passwordValidator;
 
     @Autowired
-    private UserUtils userUtils;
+    private UserUtil userUtil;
 
     public User findById(Integer id) {
         User user = this.userSearchValidator.verifyIfExists(id);
@@ -51,15 +51,17 @@ public class UserService {
     }
 
     public User create(User user) {
-        User validUser = validateRegistrationPayload(user);
+        validateRegistrationPayload(user);
 
-        if (validUser.getAddress() != null) {
-            validUser = this.addressService.persistAddress(validUser);
+        if (user.getAddress() != null) {
+            user = this.addressService.persistAddress(user);
         }
 
-        validUser = this.profileService.addDefaultProfile(validUser);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 
-        User persistentUser = this.userRepository.save(validUser);
+        user = this.profileService.addDefaultProfile(user);
+
+        User persistentUser = this.userRepository.save(user);
 
         persistentUser.setPassword(null);
 
@@ -67,30 +69,27 @@ public class UserService {
     }
 
     public void updatePassword(PasswordUpdateDTO passwordUpdateDTO) {
-        List<String> validationMessages = this.passwordUpdateValidator.validate(passwordUpdateDTO);
+        List<String> validationMessages = this.passwordValidator.validate(passwordUpdateDTO);
 
         UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
         if (validationFailure.hasValidationFailures()) {
             throw validationFailure;
         }
 
-        User user = this.userUtils.findLoggedUser();
+        User user = this.userUtil.findLoggedUser();
 
         user.setPassword(new BCryptPasswordEncoder().encode(passwordUpdateDTO.getNewPassword()));
 
         this.userRepository.save(user);
     }
 
-    private User validateRegistrationPayload(User user) {
-        List<String> validationMessages = this.userRegisterValidator.validate(user);
+    private void validateRegistrationPayload(User user) {
+        List<String> validationMessages = this.userValidator.validate(user);
 
         UserValidationFailureException validationFailure = new UserValidationFailureException(validationMessages);
         if (validationFailure.hasValidationFailures()) {
             throw validationFailure;
         }
-
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return user;
     }
 
 }

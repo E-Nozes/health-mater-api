@@ -3,7 +3,7 @@ package br.com.fiap.healthmater.validation.search;
 import br.com.fiap.healthmater.entity.User;
 import br.com.fiap.healthmater.exception.ResourceNotFoundException;
 import br.com.fiap.healthmater.repository.UserRepository;
-import br.com.fiap.healthmater.util.UserUtils;
+import br.com.fiap.healthmater.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ public class UserSearchValidator {
     private UserRepository userRepository;
 
     @Autowired
-    private UserUtils userUtils;
+    private UserUtil userUtil;
 
     public User verifyIfExists(Integer id) {
         return this.userRepository.findById(id).orElseThrow(() ->
@@ -44,7 +44,7 @@ public class UserSearchValidator {
     }
 
     public String validatePassword(String password) {
-        User user = this.userUtils.findLoggedUser();
+        User user = this.userUtil.findLoggedUser();
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 

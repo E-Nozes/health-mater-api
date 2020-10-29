@@ -23,6 +23,6 @@ public interface PostResource {
     public ResponseEntity<Page<PostDTO>> findAll(Pageable pageable);
 
     @PostMapping
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Post post);
+    public ResponseEntity<HttpStatus> post(@RequestBody @Valid Post post);
 
 }

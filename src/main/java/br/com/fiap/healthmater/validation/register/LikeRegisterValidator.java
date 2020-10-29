@@ -3,7 +3,7 @@ package br.com.fiap.healthmater.validation.register;
 import br.com.fiap.healthmater.entity.Like;
 import br.com.fiap.healthmater.entity.Post;
 import br.com.fiap.healthmater.repository.PostRepository;
-import br.com.fiap.healthmater.util.UserUtils;
+import br.com.fiap.healthmater.util.UserUtil;
 import br.com.fiap.healthmater.validation.LikeValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class LikeRegisterValidator implements LikeValidator {
     private PostRepository postRepository;
 
     @Autowired
-    private UserUtils userUtils;
+    private UserUtil userUtil;
 
     @Override
     public List<String> validate(Like like) {
@@ -46,7 +46,7 @@ public class LikeRegisterValidator implements LikeValidator {
         AtomicBoolean duplicated = new AtomicBoolean(false);
 
         post.getLikes().forEach(lk -> {
-            if (lk.getUser().equals(this.userUtils.findLoggedUser())) {
+            if (lk.getUser().equals(this.userUtil.findLoggedUser())) {
                 duplicated.set(true);
             }
         });

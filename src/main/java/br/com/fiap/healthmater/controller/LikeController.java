@@ -38,7 +38,7 @@ public class LikeController implements LikeResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_REGISTER_LIKE') and #oauth2.hasScope('write')")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Like like) {
+    public ResponseEntity<HttpStatus> like(@RequestBody @Valid Like like) {
         likeService.create(like);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class LikeController implements LikeResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_REMOVE_LIKE') and #oauth2.hasScope('write')")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("post-id") Integer postId) {
+    public ResponseEntity<HttpStatus> removeLike(@PathVariable("post-id") Integer postId) {
         likeService.delete(postId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
