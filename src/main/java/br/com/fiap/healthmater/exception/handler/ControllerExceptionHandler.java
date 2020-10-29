@@ -1,9 +1,6 @@
 package br.com.fiap.healthmater.exception.handler;
 
-import br.com.fiap.healthmater.exception.LikeValidationFailureException;
-import br.com.fiap.healthmater.exception.PostValidationFailureException;
-import br.com.fiap.healthmater.exception.ResourceNotFoundException;
-import br.com.fiap.healthmater.exception.UserValidationFailureException;
+import br.com.fiap.healthmater.exception.*;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,7 +114,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({PostValidationFailureException.class})
-    public ResponseEntity<Object> handleUserValidationFailureException(PostValidationFailureException ex) {
+    public ResponseEntity<Object> handlePostValidationFailureException(PostValidationFailureException ex) {
         List<String> userMessages = ex.getValidationMessages();
         List<Error> errorList = Collections.singletonList(new Error(userMessages));
 
@@ -126,6 +123,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({LikeValidationFailureException.class})
     public ResponseEntity<Object> handleLikeValidationFailureException(LikeValidationFailureException ex) {
+        List<String> userMessages = ex.getValidationMessages();
+        List<Error> errorList = Collections.singletonList(new Error(userMessages));
+
+        return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({DonationValidationFailureException.class})
+    public ResponseEntity<Object> handleDonationValidationFailureException(DonationValidationFailureException ex) {
         List<String> userMessages = ex.getValidationMessages();
         List<Error> errorList = Collections.singletonList(new Error(userMessages));
 

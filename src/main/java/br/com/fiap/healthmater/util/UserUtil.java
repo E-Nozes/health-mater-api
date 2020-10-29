@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @author Gabriel Oliveira
  */
 @Service
-public class UserUtils {
+public class UserUtil {
 
     @Autowired
     private UserSearchValidator searchValidator;

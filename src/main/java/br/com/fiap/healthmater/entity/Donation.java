@@ -1,6 +1,6 @@
 package br.com.fiap.healthmater.entity;
 
-import br.com.fiap.healthmater.enumerator.DonationTypeEnum;
+import br.com.fiap.healthmater.enumerator.CurrencyEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -28,19 +28,21 @@ public class Donation {
     private String description;
 
     @NotNull
-    @Enumerated
     @Column(nullable = false)
-    private DonationTypeEnum type;
+    private Double amount;
 
     @NotNull
+    @Enumerated
+    @Column(nullable = false)
+    private CurrencyEnum currency;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(nullable = false)
     private LocalDate donationDate;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User donor;
 
     public Integer getId() {
         return id;
@@ -58,12 +60,20 @@ public class Donation {
         this.description = description;
     }
 
-    public DonationTypeEnum getType() {
-        return type;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setType(DonationTypeEnum type) {
-        this.type = type;
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public CurrencyEnum getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyEnum currency) {
+        this.currency = currency;
     }
 
     public LocalDate getDonationDate() {
@@ -74,12 +84,12 @@ public class Donation {
         this.donationDate = donationDate;
     }
 
-    public User getUser() {
-        return user;
+    public User getDonor() {
+        return donor;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDonor(User donor) {
+        this.donor = donor;
     }
 
     @Override
@@ -87,9 +97,10 @@ public class Donation {
         return "Donation{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", type='" + type + '\'' +
+                ", amount=" + amount +
+                ", currency=" + currency +
                 ", donationDate=" + donationDate +
-                ", user=" + user.getEmail() +
+                ", donor=" + donor.getEmail() +
                 '}';
     }
 
@@ -99,13 +110,13 @@ public class Donation {
         if (!(o instanceof Donation)) return false;
         Donation donation = (Donation) o;
         return getId().equals(donation.getId()) &&
-                getType() == donation.getType() &&
-                getUser().equals(donation.getUser());
+                getDonationDate().equals(donation.getDonationDate()) &&
+                getDonor().equals(donation.getDonor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getType(), getUser());
+        return Objects.hash(getId(), getDonationDate(), getDonor());
     }
 
 }

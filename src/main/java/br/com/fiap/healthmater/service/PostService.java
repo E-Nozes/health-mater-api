@@ -4,8 +4,8 @@ import br.com.fiap.healthmater.dto.PostDTO;
 import br.com.fiap.healthmater.entity.Post;
 import br.com.fiap.healthmater.exception.PostValidationFailureException;
 import br.com.fiap.healthmater.repository.PostRepository;
-import br.com.fiap.healthmater.util.UserUtils;
-import br.com.fiap.healthmater.validation.register.PostRegisterValidator;
+import br.com.fiap.healthmater.util.UserUtil;
+import br.com.fiap.healthmater.validation.PostValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,10 +30,10 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private PostRegisterValidator postRegisterValidator;
+    private PostValidator postValidator;
 
     @Autowired
-    private UserUtils userUtils;
+    private UserUtil userUtil;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -49,21 +49,25 @@ public class PostService {
     }
 
     public void create(Post post) {
-        List<String> validationMessages = this.postRegisterValidator.validate(post);
-
-        PostValidationFailureException validationFailure = new PostValidationFailureException(validationMessages);
-        if (validationFailure.hasValidationFailures()) {
-            throw validationFailure;
-        }
+        validatePostPayload(post);
 
         post.setDateTime(LocalDateTime.now());
-        post.setAuthor(this.userUtils.findLoggedUser());
+        post.setAuthor(this.userUtil.findLoggedUser());
 
         this.postRepository.save(post);
     }
 
     private PostDTO convertToDto(Post post) {
         return modelMapper.map(post, PostDTO.class);
+    }
+
+    private void validatePostPayload(Post post) {
+        List<String> validationMessages = this.postValidator.validate(post);
+
+        PostValidationFailureException validationFailure = new PostValidationFailureException(validationMessages);
+        if (validationFailure.hasValidationFailures()) {
+            throw validationFailure;
+        }
     }
 
 }

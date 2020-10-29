@@ -49,7 +49,7 @@ public class UserController implements UserResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_REGISTER_USER') and #oauth2.hasScope('write')")
-    public ResponseEntity<User> create(@RequestBody @Valid User user) {
+    public ResponseEntity<User> register(@RequestBody @Valid User user) {
         return new ResponseEntity<>(userService.create(user), HttpStatus.OK);
     }
 

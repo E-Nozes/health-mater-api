@@ -19,7 +19,7 @@ public interface UserResource {
     public ResponseEntity<User> findById(@PathVariable("id") Integer id);
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody @Valid User user);
+    public ResponseEntity<User> register(@RequestBody @Valid User user);
 
     @PutMapping("password")
     public ResponseEntity<HttpStatus> updatePassword(@RequestBody @Valid PasswordUpdateDTO passwordUpdateDTO);

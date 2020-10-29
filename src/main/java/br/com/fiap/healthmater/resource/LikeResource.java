@@ -18,9 +18,9 @@ import javax.validation.Valid;
 public interface LikeResource {
 
     @PostMapping
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Like like);
+    public ResponseEntity<HttpStatus> like(@RequestBody @Valid Like like);
 
     @DeleteMapping("{post-id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("post-id") Integer id);
+    public ResponseEntity<HttpStatus> removeLike(@PathVariable("post-id") Integer id);
 
 }
