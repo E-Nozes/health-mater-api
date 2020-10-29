@@ -49,7 +49,7 @@ public class PostController implements PostResource {
             @ApiResponse(code = 500, message = "Something Unexpected Happened")
     })
     @PreAuthorize("hasAuthority('ROLE_REGISTER_POST') and #oauth2.hasScope('write')")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid Post post) {
+    public ResponseEntity<HttpStatus> post(@RequestBody @Valid Post post) {
         postService.create(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }

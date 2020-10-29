@@ -4,8 +4,8 @@ import br.com.fiap.healthmater.entity.Like;
 import br.com.fiap.healthmater.entity.Post;
 import br.com.fiap.healthmater.exception.LikeValidationFailureException;
 import br.com.fiap.healthmater.repository.LikeRepository;
-import br.com.fiap.healthmater.util.UserUtils;
-import br.com.fiap.healthmater.validation.register.LikeRegisterValidator;
+import br.com.fiap.healthmater.util.UserUtil;
+import br.com.fiap.healthmater.validation.LikeValidator;
 import br.com.fiap.healthmater.validation.search.PostSearchValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,22 +27,15 @@ public class LikeService {
     private PostSearchValidator postSearchValidator;
 
     @Autowired
-    private LikeRegisterValidator likeRegisterValidator;
+    private LikeValidator likeValidator;
 
     @Autowired
-    private UserUtils userUtils;
+    private UserUtil userUtil;
 
     public void create(Like like) {
-        this.postSearchValidator.verifyIfExists(like.getPost().getId());
+        validateLikePayload(like);
 
-        List<String> validationMessages = this.likeRegisterValidator.validate(like);
-
-        LikeValidationFailureException validationFailure = new LikeValidationFailureException(validationMessages);
-        if (validationFailure.hasValidationFailures()) {
-            throw validationFailure;
-        }
-
-        like.setUser(userUtils.findLoggedUser());
+        like.setUser(userUtil.findLoggedUser());
 
         this.likeRepository.save(like);
     }
@@ -51,10 +44,21 @@ public class LikeService {
         Post post = this.postSearchValidator.verifyIfExists(postId);
 
         post.getLikes().forEach(like -> {
-            if (like.getUser().equals(this.userUtils.findLoggedUser())) {
+            if (like.getUser().equals(this.userUtil.findLoggedUser())) {
                 this.likeRepository.delete(like);
             }
         });
+    }
+
+    private void validateLikePayload(Like like) {
+        this.postSearchValidator.verifyIfExists(like.getPost().getId());
+
+        List<String> validationMessages = this.likeValidator.validate(like);
+
+        LikeValidationFailureException validationFailure = new LikeValidationFailureException(validationMessages);
+        if (validationFailure.hasValidationFailures()) {
+            throw validationFailure;
+        }
     }
 
 }

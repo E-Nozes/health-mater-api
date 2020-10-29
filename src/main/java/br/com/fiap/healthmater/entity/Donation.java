@@ -36,15 +36,13 @@ public class Donation {
     @Column(nullable = false)
     private CurrencyEnum currency;
 
-    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(nullable = false)
     private LocalDate donationDate;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User donor;
 
     public Integer getId() {
         return id;
@@ -86,12 +84,12 @@ public class Donation {
         this.donationDate = donationDate;
     }
 
-    public User getUser() {
-        return user;
+    public User getDonor() {
+        return donor;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setDonor(User donor) {
+        this.donor = donor;
     }
 
     @Override
@@ -102,7 +100,7 @@ public class Donation {
                 ", amount=" + amount +
                 ", currency=" + currency +
                 ", donationDate=" + donationDate +
-                ", user=" + user.getEmail() +
+                ", donor=" + donor.getEmail() +
                 '}';
     }
 
@@ -113,12 +111,12 @@ public class Donation {
         Donation donation = (Donation) o;
         return getId().equals(donation.getId()) &&
                 getDonationDate().equals(donation.getDonationDate()) &&
-                getUser().equals(donation.getUser());
+                getDonor().equals(donation.getDonor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDonationDate(), getUser());
+        return Objects.hash(getId(), getDonationDate(), getDonor());
     }
 
 }
