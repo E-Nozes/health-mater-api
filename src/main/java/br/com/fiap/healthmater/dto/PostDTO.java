@@ -13,6 +13,7 @@ public class PostDTO {
 
     private Integer id;
     private String content;
+    private String pictureUrl;
     private UserDTO author;
     private LocalDateTime dateTime;
 
@@ -30,6 +31,14 @@ public class PostDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public UserDTO getAuthor() {
