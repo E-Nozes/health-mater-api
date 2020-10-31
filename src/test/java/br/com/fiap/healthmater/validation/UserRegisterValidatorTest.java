@@ -1,7 +1,6 @@
 package br.com.fiap.healthmater.validation;
 
 import br.com.fiap.healthmater.entity.User;
-import br.com.fiap.healthmater.validation.register.UserRegisterValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ import static br.com.fiap.healthmater.builder.EntityBuilder.buildUser;
 class UserRegisterValidatorTest {
 
     @Autowired
-    private UserRegisterValidator validator;
+    private UserValidator validator;
 
     private final User user = buildUser();
 

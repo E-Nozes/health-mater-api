@@ -1,6 +1,7 @@
 package br.com.fiap.healthmater.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -28,6 +29,9 @@ public class Post {
     @Column(nullable = false, length = 300)
     private String content;
 
+    @URL
+    private String pictureUrl;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
@@ -49,6 +53,14 @@ public class Post {
 
     public String getContent() {
         return content;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public void setContent(String content) {
@@ -88,6 +100,7 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 ", author=" + author.getEmail() +
                 ", dateTime=" + dateTime +
                 ", likes=" + likes.size() +
